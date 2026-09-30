@@ -76,30 +76,22 @@ export const portfolio = {
       description:
         "Web app, mobile app, and backend API that share components and types across the product.",
       stack: ["React.js", "Next.js", "React Native", "NestJS", "PostgreSQL", "Prisma", "TypeScript"],
-      // TODO: replace with the live project URL
-      live: "https://example.com/artberry",
-      // TODO: replace with the GitHub repository URL
-      github: "https://github.com/your-username/artberry",
+
+      live: "https://artberry.in",
     },
     {
       title: "BookHomestay",
       role: "Full Stack",
       description: "Homestay booking app with listings, search, and reservations.",
       stack: ["Next.js", "React.js", "Supabase", "TypeScript"],
-      // TODO: replace with the live project URL
-      live: "https://example.com/bookhomestay",
-      // TODO: replace with the GitHub repository URL
-      github: "https://github.com/your-username/bookhomestay",
+      live: "https://bookhomestay.co",
     },
     {
       title: "Lucres.com",
       role: "Frontend",
       description: "Responsive production pages and a set of reusable UI components.",
       stack: ["React.js", "Next.js", "TypeScript", "Tailwind CSS"],
-      // TODO: replace with the live project URL
-      live: "https://example.com/lucres",
-      // TODO: replace with the GitHub repository URL
-      github: "https://github.com/your-username/lucres",
+      live: "https://lucres.com",
     },
     {
       title: "AI Watermark Remover",
@@ -107,10 +99,7 @@ export const portfolio = {
       description:
         "Removes watermarks from images using the LaMa inpainting model through a FastAPI backend.",
       stack: ["FastAPI", "Python", "LaMa", "Next.js", "React.js"],
-      // TODO: replace with the live project URL
-      live: "https://example.com/ai-watermark-remover",
-      // TODO: replace with the GitHub repository URL
-      github: "https://github.com/your-username/ai-watermark-remover",
+      github: "https://github.com/Samadhanshelke/watermark-remover",
     },
   ],
 };

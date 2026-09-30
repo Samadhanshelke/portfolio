@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { portfolio } from "@/app/content";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -296,26 +296,7 @@ export function Site() {
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-auto flex gap-3 pt-6">
-                        <a
-                          href={project.live}
-                          className={secondaryButton}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Live
-                          <span className="sr-only"> (opens in a new tab)</span>
-                        </a>
-                        <a
-                          href={project.github}
-                          className={secondaryButton}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          GitHub
-                          <span className="sr-only"> (opens in a new tab)</span>
-                        </a>
-                      </div>
+                      <ProjectLinks project={project} />
                     </article>
                   </li>
                 ))}
@@ -326,58 +307,55 @@ export function Site() {
 
         <Reveal>
           <section id="contact" aria-labelledby="contact-heading" className="border-t border-line">
-            <div className="mx-auto grid max-w-5xl gap-12 px-5 py-16 sm:py-20 md:grid-cols-2">
-              <div>
-                <SectionIndex index="05" />
-                <h2
-                  id="contact-heading"
-                  className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl"
-                >
-                  Contact
-                </h2>
-                <p className="mt-6 max-w-sm text-muted">
-                  For a role, a product, or a collaboration.
-                </p>
-                <ul className="mt-8 grid gap-4">
-                  <li>
-                    <a
-                      href={`mailto:${portfolio.email}`}
-                      className="font-medium text-ink underline decoration-line underline-offset-4 hover:text-accent hover:decoration-accent"
-                    >
-                      {portfolio.email}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href={portfolio.phoneHref}
-                      className="font-medium text-ink underline decoration-line underline-offset-4 hover:text-accent hover:decoration-accent"
-                    >
-                      {portfolio.phone}
-                    </a>
-                  </li>
-                  <li className="flex gap-4">
-                    <a
-                      href={portfolio.github}
-                      className="text-sm font-medium text-accent underline underline-offset-4"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      GitHub
-                      <span className="sr-only"> (opens in a new tab)</span>
-                    </a>
-                    <a
-                      href={portfolio.linkedin}
-                      className="text-sm font-medium text-accent underline underline-offset-4"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      LinkedIn
-                      <span className="sr-only"> (opens in a new tab)</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <ContactForm />
+            <div className="mx-auto max-w-5xl px-5 py-16 sm:py-20">
+              <SectionIndex index="05" />
+              <h2
+                id="contact-heading"
+                className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl"
+              >
+                Contact
+              </h2>
+              <p className="mt-6 max-w-sm text-muted">
+                For a role, a product, or a collaboration.
+              </p>
+              <ul className="mt-8 grid gap-4">
+                <li>
+                  <a
+                    href={`mailto:${portfolio.email}`}
+                    className="font-medium text-ink underline decoration-line underline-offset-4 hover:text-accent hover:decoration-accent"
+                  >
+                    {portfolio.email}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={portfolio.phoneHref}
+                    className="font-medium text-ink underline decoration-line underline-offset-4 hover:text-accent hover:decoration-accent"
+                  >
+                    {portfolio.phone}
+                  </a>
+                </li>
+                <li className="flex gap-4">
+                  <a
+                    href={portfolio.github}
+                    className="text-sm font-medium text-accent underline underline-offset-4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                  <a
+                    href={portfolio.linkedin}
+                    className="text-sm font-medium text-accent underline underline-offset-4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              </ul>
             </div>
           </section>
         </Reveal>
@@ -464,69 +442,26 @@ function Reveal({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ContactForm() {
-  const [status, setStatus] = useState("");
-  const statusId = useId();
-
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
-    const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
-    setStatus("Opening your email app with this message.");
-    window.location.href = `mailto:${portfolio.email}?subject=${subject}&body=${body}`;
-  }
+function ProjectLinks({ project }: { project: (typeof portfolio.projects)[number] }) {
+  const live = "live" in project ? project.live : "";
+  const github = "github" in project ? project.github : "";
+  if (!live && !github) return null;
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 rounded-2xl border border-line bg-card p-6">
-      <div className="grid gap-2">
-        <label htmlFor="name" className="text-sm font-medium">
-          Name
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          className="min-h-11 rounded-lg border border-line bg-paper px-3 text-ink"
-        />
-      </div>
-      <div className="grid gap-2">
-        <label htmlFor="email" className="text-sm font-medium">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className="min-h-11 rounded-lg border border-line bg-paper px-3 text-ink"
-        />
-      </div>
-      <div className="grid gap-2">
-        <label htmlFor="message" className="text-sm font-medium">
-          Message
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          className="rounded-lg border border-line bg-paper px-3 py-2 text-ink"
-        />
-      </div>
-      <button type="submit" className={primaryButton}>
-        Send message
-      </button>
-      <p id={statusId} role="status" className="min-h-5 text-sm text-muted">
-        {status}
-      </p>
-    </form>
+    <div className="mt-auto flex gap-3 pt-6">
+      {live ? (
+        <a href={live} className={secondaryButton} target="_blank" rel="noopener noreferrer">
+          Live
+          <span className="sr-only"> (opens in a new tab)</span>
+        </a>
+      ) : null}
+      {github ? (
+        <a href={github} className={secondaryButton} target="_blank" rel="noopener noreferrer">
+          GitHub
+          <span className="sr-only"> (opens in a new tab)</span>
+        </a>
+      ) : null}
+    </div>
   );
 }
 
