@@ -23,11 +23,16 @@ export const metadata: Metadata = {
   title,
   description,
   openGraph: {
-    title,
+    title: portfolio.name,
     description,
     type: "website",
     locale: "en_IN",
     siteName: portfolio.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: portfolio.name,
+    description,
   },
 };
 
