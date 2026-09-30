@@ -103,18 +103,75 @@ section[id] {
   backdrop-filter: blur(14px);
 }
 
+.hero-rule {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform-origin: top center;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0.375rem;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  html.js .hero-rule {
+    animation: grow-y 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   html.js .reveal:not(.is-visible) {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(2rem);
   }
 
   html.js .reveal.is-visible {
     opacity: 1;
     transform: none;
     transition:
-      opacity 600ms ease,
-      transform 600ms ease;
+      opacity 700ms ease,
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.js .reveal.is-visible .rise {
+    animation: rise-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-line {
+    transform: none;
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

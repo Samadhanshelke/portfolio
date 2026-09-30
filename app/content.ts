@@ -11,10 +11,8 @@ export const portfolio = {
   phone: "+91 7507534973",
   phoneHref: "tel:+917507534973",
   footer: "© 2026 Samadhan Shelke",
-  // TODO: replace with your GitHub profile URL
-  github: "https://github.com/your-username",
-  // TODO: replace with your LinkedIn profile URL
-  linkedin: "https://www.linkedin.com/in/your-profile",
+  github: "https://github.com/Samadhanshelke",
+  linkedin: "https://www.linkedin.com/in/samadhan-shelke-2864441b1",
   about:
     "Full Stack Developer with 2 years of experience shipping web and mobile products end to end, from Figma handoff and React/React Native interfaces to NestJS APIs and PostgreSQL schemas. Strong in TypeScript across the stack, with a focus on reusable component systems, secure APIs, and fast, maintainable code.",
   languages: ["English", "Hindi", "Marathi"],

@@ -59,12 +59,10 @@ function SunIcon() {
 
 function MoonIcon() {
   return (
-    <svg className="icon-moon size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg className="icon-moon size-5" viewBox="0 0 24 24" aria-hidden="true">
       <path
-        d="M16.5 13.5A6.5 6.5 0 0 1 10 4.2 7 7 0 1 0 19.8 14a6.5 6.5 0 0 1-3.3-.5Z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinejoin="round"
+        fill="currentColor"
+        d="M21 14.5A8.5 8.5 0 1 1 9.5 3a6.5 6.5 0 0 0 11.5 11.5Z"
       />
     </svg>
   );

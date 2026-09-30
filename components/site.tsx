@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
+import Image from "next/image";
 import { portfolio } from "@/app/content";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -105,31 +106,44 @@ export function Site() {
       </header>
 
       <main id="main">
-        <section className="mx-auto max-w-5xl px-5 pt-16 pb-20 sm:pt-24 sm:pb-28">
-          <p className="text-xs font-medium tracking-[0.22em] text-accent uppercase">
-            {portfolio.location}
-          </p>
-          <div className="mt-5 border-l-2 border-accent pl-5 sm:pl-7">
-            <h1 className="font-display text-5xl leading-[1.02] font-medium tracking-tight text-ink sm:text-7xl">
-              {portfolio.name}
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-snug font-medium text-ink sm:text-xl">
-              {portfolio.title}
-            </p>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-              {portfolio.tagline}
-            </p>
-          </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a href="#projects" className={primaryButton}>
-              View Projects
-            </a>
-            <a href={portfolio.resume} download className={secondaryButton}>
-              Download Resume
-            </a>
-            <a href="#contact" className={secondaryButton}>
-              Contact Me
-            </a>
+        <section className="mx-auto max-w-5xl px-5 pt-14 pb-20 sm:pt-24 sm:pb-28">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="order-2 min-w-0 flex-1 lg:order-1">
+              <p className="text-xs font-medium tracking-[0.22em] text-accent uppercase">
+                {portfolio.location}
+              </p>
+              <div className="relative mt-5 pl-5 sm:pl-7">
+                <span className="hero-rule" aria-hidden="true" />
+                <h1 className="font-display text-5xl leading-[1.02] font-medium tracking-tight text-ink sm:text-6xl lg:text-7xl">
+                  {portfolio.name}
+                </h1>
+                <p className="mt-5 max-w-2xl text-lg leading-snug font-medium text-ink sm:text-xl">
+                  {portfolio.title}
+                </p>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+                  {portfolio.tagline}
+                </p>
+              </div>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a href="#projects" className={primaryButton}>
+                  View Projects
+                </a>
+                <a href={portfolio.resume} download className={secondaryButton}>
+                  Download Resume
+                </a>
+                <a href="#contact" className={secondaryButton}>
+                  Contact Me
+                </a>
+              </div>
+            </div>
+            <Image
+              src="/avatar.png"
+              alt="Portrait of Samadhan Shelke"
+              width={580}
+              height={580}
+              priority
+              className="order-1 size-48 shrink-0 self-start rounded-full object-cover object-[center_22%] ring-4 ring-card sm:size-40 lg:order-2 lg:size-48"
+            />
           </div>
         </section>
 
@@ -181,10 +195,11 @@ export function Site() {
                 Skills
               </h2>
               <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-                {portfolio.skills.map((group) => (
+                {portfolio.skills.map((group, index) => (
                   <li
                     key={group.group}
-                    className="rounded-2xl border border-line bg-card p-6 transition-colors duration-200 hover:border-accent"
+                    className="rise rounded-2xl border border-line bg-card p-6 transition-colors duration-200 hover:border-accent"
+                    style={{ animationDelay: `${index * 90}ms` }}
                   >
                     <h3 className="font-display text-xl font-medium">{group.group}</h3>
                     <ul className="mt-4 flex flex-wrap gap-2">
@@ -218,11 +233,11 @@ export function Site() {
               >
                 Experience
               </h2>
-              <ol className="mt-10">
+              <ExperienceList>
                 {portfolio.experience.map((job) => (
-                  <li key={job.company} className="relative border-l border-line pb-12 pl-8 last:pb-0">
+                  <li key={job.company} className="relative pb-12 pl-8 last:pb-0">
                     <span
-                      className="absolute top-1.5 -left-[5px] size-2.5 rounded-full bg-accent ring-4 ring-paper"
+                      className="absolute top-1.5 -left-1 size-2.5 rounded-full bg-accent ring-4 ring-paper"
                       aria-hidden="true"
                     />
                     <p className="text-sm font-medium text-accent">{job.dates}</p>
@@ -239,7 +254,7 @@ export function Site() {
                     </ul>
                   </li>
                 ))}
-              </ol>
+              </ExperienceList>
             </div>
           </section>
         </Reveal>
@@ -255,8 +270,12 @@ export function Site() {
                 Projects
               </h2>
               <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-                {portfolio.projects.map((project) => (
-                  <li key={project.title} className="h-full">
+                {portfolio.projects.map((project, index) => (
+                  <li
+                    key={project.title}
+                    className="rise h-full"
+                    style={{ animationDelay: `${index * 90}ms` }}
+                  >
                     <article className="flex h-full flex-col rounded-2xl border border-line bg-card p-6 transition duration-200 hover:border-accent motion-safe:hover:-translate-y-0.5">
                       <p className="text-xs font-medium tracking-[0.16em] text-accent uppercase">
                         {project.role}
@@ -373,6 +392,48 @@ export function Site() {
 
 function SectionIndex({ index }: { index: string }) {
   return <p className="font-display text-sm text-accent italic">{index}</p>;
+}
+
+function ExperienceList({ children }: { children: React.ReactNode }) {
+  const listRef = useRef<HTMLOListElement>(null);
+  const lineRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const line = lineRef.current;
+    if (!list || !line) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function update() {
+      if (!list || !line) return;
+      if (reduce) {
+        line.style.transform = "scaleY(1)";
+        return;
+      }
+      const rect = list.getBoundingClientRect();
+      const start = window.innerHeight * 0.82;
+      const distance = Math.max(rect.height, 1) + window.innerHeight * 0.2;
+      const progress = Math.min(1, Math.max(0, (start - rect.top) / distance));
+      line.style.transform = `scaleY(${progress})`;
+    }
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return (
+    <ol ref={listRef} className="relative mt-10">
+      <span aria-hidden="true" className="absolute top-1.5 bottom-0 left-0 w-px bg-line" />
+      <span ref={lineRef} aria-hidden="true" className="timeline-line" />
+      {children}
+    </ol>
+  );
 }
 
 function Reveal({ children }: { children: React.ReactNode }) {
